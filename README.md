@@ -15,11 +15,11 @@
 ### Autentificação por token
 1. Vá em Settings
 
-![image](https://github.com/user-attachments/assets/6039755d-a4a5-452f-9806-15ed144fd218)
+![image](https://github.com/user-attachments/assets/dc6b5767-e02c-4c7a-acfa-af42261ff8a3)
 
 2. Vá em Developer settings
 
-![image](https://github.com/user-attachments/assets/bf589231-fff6-4e8e-807a-ac5f1038ad6c)
+![image](https://github.com/user-attachments/assets/24e3106e-3eeb-4e78-a2be-1c2560c62be6)
 
 3. Vá em Tokens
 
