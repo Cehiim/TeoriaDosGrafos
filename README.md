@@ -1,7 +1,7 @@
 # Teoria dos Grafos
 
-# Setup
-## Primeiros passos
+## Setup
+### Primeiros passos
 * Tenha o Git baixado - https://git-scm.com/downloads
 * Crie uma pasta
 * Clique com o botão direito e abra com Git Bash
@@ -12,7 +12,7 @@
 * Configure o nome da branch `git config --global init.defaultBranch main`
 * para checar informações use o comando sem o último parâmetro (Ex: `git config --global init.defaultBranch`)
 
-## Autentificação por token
+### Autentificação por token
 1. Vá em Settings
 
 ![image](https://github.com/user-attachments/assets/6039755d-a4a5-452f-9806-15ed144fd218)
@@ -27,7 +27,7 @@
 
 4. Gere um novo token e copie a senha
 
-## Acesso ao repositório
+### Acesso inicial ao repositório
 * Use `git clone https://github.com/Cehiim/TeoriaDosGrafos.git` para clonar o repositório remoto para o local
 * Digite o seu apelido da conta do GitHub
 * Digite a senha do token
