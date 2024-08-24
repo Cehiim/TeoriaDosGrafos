@@ -10,10 +10,11 @@
 * Configure o seu nome  `git config --global user.name "Nome Sobrenome"`
 * Configure o seu email `git config --global user.email seuemail@email.com`
 * Configure o nome da branch `git config --global init.defaultBranch main`
+* Configure para salvar suas futuras conexões com o repositório `git config --global credential.helper store`
 * para checar informações use o comando sem o último parâmetro (Ex: `git config --global init.defaultBranch`)
 
 ### Autentificação por token
-1. Vá em Settings
+1. No GitHub, vá em Settings
 
 ![image](https://github.com/user-attachments/assets/dc6b5767-e02c-4c7a-acfa-af42261ff8a3)
 
