@@ -32,6 +32,9 @@
 * Digite o seu apelido da conta do GitHub
 * Digite a senha do token
 
+### Acessos posteriores
+* Use `git remote add https://github.com/Cehiim/TeoriaDosGrafos.git` para conectar o repositório local existente com o remoto
+
 ## Gerenciar alterações
 ### Salvar alterações
 * No Git Bash do repositório local use `git add arquivo.py` para registrar a alteração no índice (staging area)
