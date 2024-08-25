@@ -34,6 +34,7 @@
 
 ### Acessos posteriores
 * Use `git remote add https://github.com/Cehiim/TeoriaDosGrafos.git` para conectar o repositório local existente com o remoto
+* Use `git pull` para puxar novas alterações
 
 ## Gerenciar alterações
 ### Salvar alterações
