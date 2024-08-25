@@ -33,6 +33,29 @@ def ehDesconexo(grafo): # Ex 13
             if(j == n-1 and grafo.adj[i][j] == 0):
                 return True
     return False
+
+def comparador(grafo, min_arestas):
+    n = grafo.n
+    for i in range(n):
+        count = 0
+        for j in range(n):
+            if(grafo.adj[i][j] == 1):
+                count+=1
+        if(count<min_arestas):
+            return False
+    return True
+
+def grauConexidade(grafo):
+    if(ehDesconexo(grafo)):
+        return "C0"
+    else:
+        if(comparador(grafo, 3)):
+            return "C3"
+        elif(comparador(grafo, 2)):
+            return "C2"
+        else:
+            return "C1"
+
 '''
 g = Grafo(4)
 g.insereA(0, 1)
@@ -58,6 +81,7 @@ gnd.insereA(3, 3)
 gnd.showMin()
 print(ehCompleto(gnd))
 print(ehDesconexo(gnd))
+print(grauConexidade(gnd))
 '''
 gr = GrafoR(4)
 gr.insereA(0, 1, 1.5)
