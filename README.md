@@ -33,8 +33,9 @@
 * Digite a senha do token
 
 ### Acessos posteriores
-* Use `git remote add origin https://github.com/Cehiim/TeoriaDosGrafos.git` para conectar o repositório local existente com o remoto
-* Use `git pull` para puxar novas alterações
+* Use `git fetch origin main` para puxar alterações do repositório remoto que não estão presentes no repositório local
+* Use `git diff main origin/main` para comparar as alterações do repositório remoto
+* Use `git merge origin/main` para aplicar as alterações do repositório remoto para o repositório local
 
 ## Gerenciar alterações
 ### Salvar alterações
