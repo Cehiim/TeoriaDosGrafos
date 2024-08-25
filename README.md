@@ -45,6 +45,8 @@
 * Para fazer o commit `git commit -m "Descrição do commit"`
 * Use `git log` para conferir o último commit
 * Use `git commit --amend -m "Nova descrição"` para atualizar a descrição do último commit
+* Use `git push` para aplicar as alterações no repositório remoto
+
 
 ### Desfazer alterações
 * Use `git restore` para desfazer as alterações não registradas pelo `git add`
