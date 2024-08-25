@@ -57,7 +57,16 @@ def grauConexidade(grafo): # Ex 14
         else:
             return "C1"
 
-'''
+def matrizParaLista(matriz): # Ex 18
+    n = matriz.n
+    lista = GrafoL(n)
+    for i in range(n):
+        for j in range(n):
+            if(matriz.adj[i][j] == 1):
+                lista.insereA(i, j)
+    return lista
+
+
 g = Grafo(4)
 g.insereA(0, 1)
 g.insereA(0, 2)
@@ -70,6 +79,7 @@ g.insereA(3, 3)
 g.showMin()
 print(ehCompleto(g))
 '''
+
 gnd = GrafoND(4)
 gnd.insereA(0, 1)
 gnd.insereA(0, 2)
@@ -84,6 +94,7 @@ print(ehCompleto(gnd))
 print(ehDesconexo(gnd))
 print(grauConexidade(gnd))
 '''
+'''
 gr = GrafoR(4)
 gr.insereA(0, 1, 1.5)
 gr.insereA(0, 2, 3)
@@ -95,18 +106,10 @@ gr.insereA(3, 3, 5)
 #gr.show()
 gr.showMin()
 
+
 gc = grafoComplementar(g)
 gc.showMin()
 '''
-g = GrafoL(4)
-#insere as arestas do grafo
-#A={(0,1),(0,2),(2,1),(2,3),(1,3)}
-g.insereA(0,1)
-g.insereA(0,2)
-g.insereA(2,1)
-g.insereA(2,3)
-g.insereA(1,3)
-# mostra o grafo preenchido
-g.show()
-g.removeA(0,1)
-g.show()
+
+gl = matrizParaLista(g)
+gl.show()
