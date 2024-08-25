@@ -4,6 +4,8 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
+
+# Grafo da matriz de adjacência
 class Grafo:
     TAM_MAX_DEFAULT = 100 # qtde de vértices máxima default
     # construtor da classe grafo
@@ -20,12 +22,14 @@ class Grafo:
             self.adj[v][w] = 1
             self.m+=1 # atualiza qtd arestas
     
-    # remove uma aresta v->w do Grafo	
+# remove uma aresta v->w do Grafo
     def removeA(self, v, w):
+        if(v == w):
+            return
         # testa se temos a aresta
-	    if self.adj[v][w] == 1:
-	        self.adj[v][w] = 0
-	        self.m-=1; # atualiza qtd arestas
+        if self.adj[v][w] == 1:
+            self.adj[v][w] = 0
+            self.m -= 1  # atualiza qtd arestas
 
 	# Apresenta o Grafo contendo
 	# número de vértices, arestas
@@ -58,4 +62,3 @@ class Grafo:
                     print(" 0 ", end="")
             print("\n")
         print("\nfim da impressao do grafo." )
-    
