@@ -1,6 +1,6 @@
 from TGrafo import Grafo
 
-# Grafo da matriz de adjacência não-direcionado
+# Grafo como uma matriz de adjacência não-direcionado
 class GrafoND(Grafo): # Ex 7
     def insereA(self, v, w):
         if(v == w):

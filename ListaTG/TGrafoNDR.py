@@ -1,6 +1,6 @@
 from TGrafoND import GrafoND
 
-# Grafo da matriz de adjacência não-direcionado rotulado
+# Grafo como uma matriz de adjacência não-direcionado rotulado
 class GrafoNDR(GrafoND): # Ex 8
     def insereA(self, v, w, p):
         if(v == w):

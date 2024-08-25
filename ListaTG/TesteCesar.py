@@ -2,6 +2,7 @@ from TGrafo import Grafo
 from TGrafoND import GrafoND
 from TGrafoR import GrafoR
 from TGrafoNDR import GrafoNDR
+from TGrafoL import GrafoL
 
 def ehCompleto(grafo): # Ex 11
     n = grafo.n
@@ -45,7 +46,7 @@ def comparador(grafo, min_arestas):
             return False
     return True
 
-def grauConexidade(grafo):
+def grauConexidade(grafo): # Ex 14
     if(ehDesconexo(grafo)):
         return "C0"
     else:
@@ -97,3 +98,15 @@ gr.showMin()
 gc = grafoComplementar(g)
 gc.showMin()
 '''
+g = GrafoL(4)
+#insere as arestas do grafo
+#A={(0,1),(0,2),(2,1),(2,3),(1,3)}
+g.insereA(0,1)
+g.insereA(0,2)
+g.insereA(2,1)
+g.insereA(2,3)
+g.insereA(1,3)
+# mostra o grafo preenchido
+g.show()
+g.removeA(0,1)
+g.show()

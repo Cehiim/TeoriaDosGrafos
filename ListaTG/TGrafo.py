@@ -5,7 +5,7 @@ Created on Mon Feb 13 13:59:10 2023
 @author: icalc
 """
 
-# Grafo da matriz de adjacência
+# Grafo como uma matriz de adjacência
 class Grafo:
     TAM_MAX_DEFAULT = 100 # qtde de vértices máxima default
     # construtor da classe grafo
