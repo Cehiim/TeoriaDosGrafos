@@ -2,6 +2,9 @@ from TGrafo import Grafo
 
 # Grafo como uma matriz de adjacência rotulado
 class GrafoR(Grafo): # Ex 16
+    def __init__(self):
+        super().__init__()
+        
     def insereA(self, v, w, p):
         if self.adj[v][w] == 0:
             self.adj[v][w] = p
