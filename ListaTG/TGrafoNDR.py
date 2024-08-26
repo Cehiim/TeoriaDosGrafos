@@ -2,6 +2,9 @@ from TGrafoND import GrafoND
 
 # Grafo como uma matriz de adjacência não-direcionado rotulado
 class GrafoNDR(GrafoND): # Ex 8
+    def __init__(self):
+        super().__init__()
+        
     def insereA(self, v, w, p):
         if(v == w):
             return
