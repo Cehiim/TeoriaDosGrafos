@@ -26,6 +26,19 @@ class GrafoND(Grafo): # Ex 7
     #Verifica se o grafo é completo Ex 10)
     def ehCompleto(self):
         if((self.n ** 2 - self.n)/ 2 == self.m):
-            return True
+            return "O grafo é completo"
         else:
-            return False
+            return "O grafo não é completo"
+                
+    def conexidade(self): # Ex 13
+        if(self.n > 1 and self.m == 0):
+            return "O grafo não é conexo"
+        passou = [0]
+        for i in range(self.n):
+            if(not i in passou):
+                return "O grafo não é conexo"
+            for j in range(self.n):
+                if(i != j and self.adj[i][j] != 0 and not j in passou):
+                    passou.append(j)
+                    #print(passou)
+        return "O grafo é conexo"

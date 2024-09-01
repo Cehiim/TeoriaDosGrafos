@@ -127,8 +127,31 @@ class Grafo:
         self.adj.pop() #Remove a última linha
         self.n -= 1 #Decrementa um vértice
         
+    def ehCompleto(self): # Ex 11
+        if((self.n ** 2) - self.n == self.m):
+            return "O grafo é completo"
+        return "O grafo não é completo"
 
+'''
+    def comparador(grafo, min_arestas):
+        n = grafo.n
+        for i in range(n):
+            count = 0
+            for j in range(n):
+                if(grafo.adj[i][j] == 1):
+                    count+=1
+            if(count<min_arestas):
+                return False
+        return True
 
-
-        
-    
+    def conexidade(grafo): # Ex 14
+        if(ehDesconexo(grafo)):
+            return "C0"
+        else:
+            if(comparador(grafo, 3)):
+                return "C3"
+            elif(comparador(grafo, 2)):
+                return "C2"
+            else:
+                return "C1"
+            '''

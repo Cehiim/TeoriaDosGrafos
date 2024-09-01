@@ -4,12 +4,12 @@ from TGrafoR import GrafoR
 from TGrafoNDR import GrafoNDR
 from TGrafoL import GrafoL
 
-def ehCompleto(grafo): # Ex 11
+def ehCompleto(grafo): # Funciona para todos os grafos
     n = grafo.n
     for i in range(n):
         for j in range(n):
             if(i == j):
-                if(grafo.adj[i][i] == 1):
+                if(grafo.adj[i][i] != 0):
                     return False
             else:
                 if(grafo.adj[i][j] != 1):
@@ -25,38 +25,6 @@ def grafoComplementar(grafo): # Ex 12
                 grafo_complementar.insereA(i, j)
     return grafo_complementar
 
-def ehDesconexo(grafo): # Ex 13
-    n = grafo.n
-    for i in range(n):
-        for j in range(n):
-            if(grafo.adj[i][j] == 1):
-                break
-            if(j == n-1 and grafo.adj[i][j] == 0):
-                return True
-    return False
-
-def comparador(grafo, min_arestas):
-    n = grafo.n
-    for i in range(n):
-        count = 0
-        for j in range(n):
-            if(grafo.adj[i][j] == 1):
-                count+=1
-        if(count<min_arestas):
-            return False
-    return True
-
-def grauConexidade(grafo): # Ex 14
-    if(ehDesconexo(grafo)):
-        return "C0"
-    else:
-        if(comparador(grafo, 3)):
-            return "C3"
-        elif(comparador(grafo, 2)):
-            return "C2"
-        else:
-            return "C1"
-
 def matrizParaLista(matriz): # Ex 18
     n = matriz.n
     lista = GrafoL(n)
@@ -66,21 +34,29 @@ def matrizParaLista(matriz): # Ex 18
                 lista.insereA(i, j)
     return lista
 
-
-g = Grafo(4)
+print("Grafo original")
+g = GrafoND(6)
 g.insereA(0, 1)
-g.insereA(0, 2)
-g.insereA(0, 3)
 g.insereA(1, 2)
-g.insereA(1, 3)
+g.insereA(2, 0)
 g.insereA(2, 3)
-g.insereA(3, 3)
+g.insereA(3, 4)
+g.insereA(4, 5)
+g.insereA(5, 3)
 #g.show()
 g.showMin()
-print(ehCompleto(g))
+print(g.ehCompleto())
+print(g.conexidade())
 '''
+print("Grafo complementar")
+gc = grafoComplementar(g)
+gc.showMin()
 
-gnd = GrafoND(4)
+print("Grafo em lista")
+gl = matrizParaLista(g)
+gl.show()
+
+gnd = GrafoNDR(4)
 gnd.insereA(0, 1)
 gnd.insereA(0, 2)
 gnd.insereA(0, 3)
@@ -90,12 +66,9 @@ gnd.insereA(2, 3)
 gnd.insereA(3, 3)
 #gnd.show()
 gnd.showMin()
-print(ehCompleto(gnd))
-print(ehDesconexo(gnd))
-print(grauConexidade(gnd))
-'''
-'''
-gr = GrafoR(4)
+print(g.ehCompleto())
+
+gr = GrafoNDR(4)
 gr.insereA(0, 1, 1.5)
 gr.insereA(0, 2, 3)
 gr.insereA(0, 3, 4.5)
@@ -105,11 +78,4 @@ gr.insereA(2, 3, 2)
 gr.insereA(3, 3, 5)
 #gr.show()
 gr.showMin()
-
-
-gc = grafoComplementar(g)
-gc.showMin()
 '''
-
-gl = matrizParaLista(g)
-gl.show()
