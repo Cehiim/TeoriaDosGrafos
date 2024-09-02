@@ -34,8 +34,22 @@ def matrizParaLista(matriz): # Ex 18
                 lista.insereA(i, j)
     return lista
 
+def comparaGrafos(matriz, lista): # Ex 17
+    if(matriz.n != lista.n or matriz.m != lista.m):
+        return "Os grafos são diferentes"
+    n = matriz.n
+    for i in range(n):
+        for j in range(n):
+            if(matriz.adj[i][j] == 0):
+                if(j in lista.listaAdj[i]):
+                    return "Os grafos são diferentes"
+            else:
+                if(not j in lista.listaAdj[i]):
+                    return "Os grafos são diferentes"
+    return "Os grafos são iguais"
+
 print("Grafo original")
-g = GrafoND(6)
+g = Grafo(6)
 g.insereA(0, 1)
 g.insereA(1, 2)
 g.insereA(2, 0)
@@ -46,8 +60,8 @@ g.insereA(5, 3)
 #g.show()
 g.showMin()
 print(g.ehCompleto())
-print(g.conexidade())
-'''
+#print(g.conexidade())
+
 print("Grafo complementar")
 gc = grafoComplementar(g)
 gc.showMin()
@@ -55,7 +69,8 @@ gc.showMin()
 print("Grafo em lista")
 gl = matrizParaLista(g)
 gl.show()
-
+print(comparaGrafos(g,gl))
+'''
 gnd = GrafoNDR(4)
 gnd.insereA(0, 1)
 gnd.insereA(0, 2)

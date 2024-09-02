@@ -131,27 +131,13 @@ class Grafo:
         if((self.n ** 2) - self.n == self.m):
             return "O grafo é completo"
         return "O grafo não é completo"
-
 '''
-    def comparador(grafo, min_arestas):
-        n = grafo.n
-        for i in range(n):
-            count = 0
-            for j in range(n):
-                if(grafo.adj[i][j] == 1):
-                    count+=1
-            if(count<min_arestas):
-                return False
-        return True
-
-    def conexidade(grafo): # Ex 14
-        if(ehDesconexo(grafo)):
-            return "C0"
-        else:
-            if(comparador(grafo, 3)):
-                return "C3"
-            elif(comparador(grafo, 2)):
-                return "C2"
-            else:
-                return "C1"
-            '''
+    def buscaCaminho(self, v1, v2): # Ex 14
+        if(self.adj[v1][v2] != 0):
+            return True
+        passou = [v1]
+        i = 0
+        atual = v1
+        while(i < self.n):
+            if()
+'''
