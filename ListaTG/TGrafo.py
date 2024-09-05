@@ -4,6 +4,7 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
+from stack import Stack
 
 # Grafo como uma matriz de adjacência
 class Grafo:
@@ -126,8 +127,44 @@ class Grafo:
         
         self.adj.pop() #Remove a última linha
         self.n -= 1 #Decrementa um vértice
-        
+    
+    def marcaNo(self, nosMarcados, QtdeNosMarcados, vInicio):
+        pass # a desenvolver
+    
+    def percursoProfindidade(self, vInicio):
+        QtdeNosMarcados = 0
+        nosMarcados = []
+        pilha = Stack()
+        print(f"visitou: {vInicio}")
+        self.marcaNo(nosMarcados, QtdeNosMarcados, vInicio)
+        pilha.push(vInicio)
 
+        while(not pilha.isEmpty()):
+            n = pilha.pop()
+
+
+        
+# void percursoProfundidade( int vInicio )
+# {
+#   int nroNosMarcados = 0, n, m,
+#   nosMarcados = new int [nroVertices];
+#   Pilha p = new Pilha();
+#   visitarNo( vInicio);
+#   marcarNo( nosMarcados, nroNosMarcados, vInicio ); // A desenvolver
+#   p.push( vInicio );
+#   while (!p.isEsmpty())
+#   {
+#       n = p.pop();
+#       // Existe nó adjacente a n ainda não marcado (A desenvolver)
+#       while ((m = noAdjacente( n, nosMarcados ))!= -1)
+#        {
+#           visitarNo( m );
+#           p.push( n );
+#           marcarNo( nosMarcados, nroNosMarcados, m );
+#           n = m;
+#         } 
+#   } 
+# }
 
 
         
