@@ -16,10 +16,22 @@ for i in range(grafo.n):
     print(grafo.adj[i])
 '''
 
-grafoND = GrafoND(6)
-grafoND.leGrafo()
-for i in range(grafoND.n):
-    print(grafoND.adj[i])
+#grafoND = GrafoND(6)
+#grafoND.leGrafo()
+#for i in range(grafoND.n):
+#    print(grafoND.adj[i])
+#
+#print(grafoND.ehCompleto())
 
-print(grafoND.ehCompleto())
+###### Testa Busca em profundidade ########
+grafo = Grafo(8)
 
+profundidade = grafo.percursoProfindidade(0)
+largura = grafo.percursoLargura(0)
+
+for i in range(grafo.n):
+    profundidade[i] = chr(profundidade[i] + 97)
+    largura[i] = chr(largura[i] + 97)
+
+print("Percurso em profundidade:", profundidade)
+print("Percurso em largura:", largura)

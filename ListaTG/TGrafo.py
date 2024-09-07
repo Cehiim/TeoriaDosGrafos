@@ -4,7 +4,7 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from stack import Stack
+from structure import Stack, Queue
 
 # Grafo como uma matriz de adjacência
 class Grafo:
@@ -128,44 +128,46 @@ class Grafo:
         self.adj.pop() #Remove a última linha
         self.n -= 1 #Decrementa um vértice
     
-    def marcaNo(self, nosMarcados, QtdeNosMarcados, vInicio):
-        pass # a desenvolver
+    def noAdjacente(self, n, nosMarcados):
+        for i, item in zip(range(len(self.adj[n])), self.adj[n]):
+            if item == 1 and i not in nosMarcados:
+                return i
+        return -1
     
     def percursoProfindidade(self, vInicio):
-        QtdeNosMarcados = 0
+        percurso = [vInicio]
         nosMarcados = []
         pilha = Stack()
-        print(f"visitou: {vInicio}")
-        self.marcaNo(nosMarcados, QtdeNosMarcados, vInicio)
+        
+        nosMarcados.append(vInicio)
         pilha.push(vInicio)
-
         while(not pilha.isEmpty()):
+            
             n = pilha.pop()
+            while (self.noAdjacente(n, nosMarcados)) != -1: 
+                m = self.noAdjacente(n, nosMarcados)
+                percurso.append(m)
+                pilha.push(n)
+                nosMarcados.append(m)
+                n = m
 
+        return percurso
 
-        
-# void percursoProfundidade( int vInicio )
-# {
-#   int nroNosMarcados = 0, n, m,
-#   nosMarcados = new int [nroVertices];
-#   Pilha p = new Pilha();
-#   visitarNo( vInicio);
-#   marcarNo( nosMarcados, nroNosMarcados, vInicio ); // A desenvolver
-#   p.push( vInicio );
-#   while (!p.isEsmpty())
-#   {
-#       n = p.pop();
-#       // Existe nó adjacente a n ainda não marcado (A desenvolver)
-#       while ((m = noAdjacente( n, nosMarcados ))!= -1)
-#        {
-#           visitarNo( m );
-#           p.push( n );
-#           marcarNo( nosMarcados, nroNosMarcados, m );
-#           n = m;
-#         } 
-#   } 
-# }
+    def percursoLargura(self, vInicio):
+        percurso = [vInicio]
+        nosMarcados = []
+        fila = Queue()
 
+        nosMarcados.append(vInicio)
+        fila.enqueue(vInicio)
+        while(not fila.isEmpty()):
 
-        
-    
+            n = fila.dequeue()
+            while(self.noAdjacente(n, nosMarcados) != -1):
+                m = self.noAdjacente(n, nosMarcados)
+                percurso.append(m)
+                fila.enqueue(m)
+                nosMarcados.append(m)
+
+        return percurso
+
