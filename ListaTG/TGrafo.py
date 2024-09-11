@@ -65,7 +65,7 @@ class Grafo:
 
 
     # Função para calcular o grau de entrada no vértice v Ex 1)
-    #OBS: Estou assumindo que, para os métodos abaixo, o valor v pertence ao intervalo [0, n - 1] ao invés de [1, n]
+    #OBS: Estou assumindo que, para os métodos abaixo, o valor v pertence ao intervalo [0, n - 1] ao invés de [1, n], em que n é o número de vértices
     def inDegree(self, v):
         degree = 0
         for i in range(self.n):
