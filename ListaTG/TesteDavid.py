@@ -17,9 +17,13 @@ for i in range(grafo.n):
 '''
 
 grafoND = GrafoND(6)
-grafoND.leGrafo()
+grafoND.leGrafo(path= "./ListaTG/grafo.txt")
+
+grafoND.show()
+
 for i in range(grafoND.n):
     print(grafoND.adj[i])
+
 
 print(grafoND.ehCompleto())
 

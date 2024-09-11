@@ -23,6 +23,15 @@ class GrafoND(Grafo): # Ex 7
             self.adj[w][v] = 0
             self.m -= 1  # atualiza qtd arestas
     
+    def show(self):
+        print(f"\n n: {self.n:2d} ", end="")
+        print(f"m: {self.m:2d}\n")
+        for i in range(int(self.n)):
+            for w in range(self.n):
+                print(f"Adj[{i:2d},{w:2d}] = {self.adj[i][w]:.2f} ", end="")
+            print("\n")
+        print("\nfim da impressao do grafo." )
+    
     #Verifica se o grafo é completo Ex 10)
     def ehCompleto(self):
         if((self.n ** 2 - self.n)/ 2 == self.m):
