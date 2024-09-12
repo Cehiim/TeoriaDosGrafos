@@ -51,3 +51,16 @@ class GrafoND(Grafo): # Ex 7
                     passou.append(j)
                     #print(passou)
         return "O grafo é conexo"
+    
+    def removeV(self, vertice): # Ex 24
+        if(vertice >= self.n):
+            return False
+        for i in range(self.n-1):
+            if(i >= vertice): # Substitui as conexões do vértice a ser retirado e
+                              # os vértices posteriores a ele com as conexões do próximo vértice
+                self.adj[i] = self.adj[i+1]
+            self.removeA(i,vertice)
+            self.adj[i].pop(vertice) # Remove o vértice escolhido da linha da matriz
+        self.adj.pop() # Remove a última linha da matriz
+        self.n -= 1
+        return True

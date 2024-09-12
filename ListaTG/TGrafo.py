@@ -111,7 +111,7 @@ class Grafo:
                 i, j = int(string[0]), int(string[2])
                 self.adj[i][j] = 1
     
-    #Método para remover um vértice de um grafo Ex 9)
+    #Método para remover um vértice de um grafo direcionado Ex 25)
     def removeV(self, v):
         for i in range(self.n):
             if self.adj[i][v] == 1 or self.adj[v][i] == 1: #Verifica se havia uma aresta para subtrair
