@@ -4,12 +4,13 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from Dijkistra.structure import Stack, Queue
+from structure import Stack, Queue
+import sys
 
 # Grafo como uma matriz de adjacência
 class Grafo:
     # construtor da classe grafo
-    def __init__(self, path= "./OrdenacaoTopologica/grafo_aula.txt"):
+    def __init__(self, path= "./Dijkstra/grafo_dijkstra.txt"):
         self.leGrafo(path)
 
 	# Insere uma aresta no Grafo tal que
@@ -108,8 +109,11 @@ class Grafo:
             self.adj = [[0 for i in range(self.n)] for j in range(self.n)]
             for _ in range(self.m):
                 string = file.readline()
-                i, j = int(string[0]), int(string[2])
-                self.adj[i][j] = 1
+                i, j, k = string.split(" ")
+                i, j, k = int(i), int(j), int(k)
+                i -= 1
+                j -= 1
+                self.adj[i][j] = k
     
     #Método para remover um vértice de um grafo Ex 9)
     def removeV(self, v):
@@ -207,5 +211,34 @@ class Grafo:
             vetor[i] = chr(vetor[i] + 97) # Troca os índices da tabela pelas letras dos vértices
         return vetor
     
-    def dijkstra():
-        pass
+    import sys
+
+    def dijkstra(self, origem):
+        # Inicializar distâncias com "infinito"
+        distancias = [sys.maxsize] * self.n
+        distancias[origem] = 0  # A distância da origem para ela mesma é 0
+
+        # Conjunto de vértices visitados
+        visitados = set()
+
+        # Enquanto todos os vértices não forem visitados
+        while len(visitados) < self.n:
+            # Encontre o vértice com a menor distância que ainda não foi visitado
+            min_distancia = sys.maxsize
+            u = -1
+            for i in range(self.n):
+                if i not in visitados and distancias[i] < min_distancia:
+                    min_distancia = distancias[i]
+                    u = i
+
+            # Marque o vértice `u` como visitado
+            visitados.add(u)
+
+            # Atualizar as distâncias dos vizinhos de `u`
+            for v in range(self.n):
+                if self.adj[u][v] > 0 and v not in visitados:  # Existe uma aresta entre `u` e `v`
+                    nova_distancia = distancias[u] + self.adj[u][v]
+                    if nova_distancia < distancias[v]:
+                        distancias[v] = nova_distancia
+
+        return distancias
