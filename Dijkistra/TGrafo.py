@@ -4,7 +4,7 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from structure import Stack, Queue
+from Dijkistra.structure import Stack, Queue
 
 # Grafo como uma matriz de adjacência
 class Grafo:
@@ -206,3 +206,6 @@ class Grafo:
         for i in range(self.n):
             vetor[i] = chr(vetor[i] + 97) # Troca os índices da tabela pelas letras dos vértices
         return vetor
+    
+    def dijkstra():
+        pass

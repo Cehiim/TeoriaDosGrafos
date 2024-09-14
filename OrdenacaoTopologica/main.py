@@ -1,4 +1,4 @@
-from TGrafo import Grafo
+from Dijkistra.TGrafo import Grafo
 
 # Teste 1
 grafo = Grafo() #Obtém grafo do arquivo .txt
