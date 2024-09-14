@@ -9,7 +9,7 @@ from structure import Stack, Queue
 # Grafo como uma matriz de adjacência
 class Grafo:
     # construtor da classe grafo
-    def __init__(self, path= "./OrdenacaoTopologica/grafo_teste.txt"):
+    def __init__(self, path= "./OrdenacaoTopologica/grafo_aula.txt"):
         self.leGrafo(path)
 
 	# Insere uma aresta no Grafo tal que
