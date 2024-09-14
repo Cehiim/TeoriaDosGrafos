@@ -1,0 +1,2 @@
+from TGrafo import Grafo
+
