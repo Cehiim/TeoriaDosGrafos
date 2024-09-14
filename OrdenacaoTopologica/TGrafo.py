@@ -134,6 +134,12 @@ class Grafo:
                 return i
         return -1
     
+    def EhAdjacente(self, v, x): #verifica se o vértice v é adjacente a x
+        if self.adj[v][x] == 1:
+            return True
+        else:
+            return False
+
     def percursoProfindidade(self, vInicio):
         percurso = [vInicio]
         nosMarcados = []
@@ -170,21 +176,54 @@ class Grafo:
                 nosMarcados.append(m)
 
         return percurso
+    
+    def ordenacaotopologica(self):
+        ge = [0] * self.n
+        fila = Queue()
+        ordenacao = []
+        for i in range(self.n):
+            ge[i] = self.inDegree(i)
+        
+        for i in range(self.n):
+            if ge[i] == 0:
+                fila.enqueue(i)
+                ge[i] = -1
+        
+        while not fila.isEmpty():
+            n = fila.dequeue()
+            ordenacao.append(n) #visita nó
+            for i in range(self.n):
+                if self.EhAdjacente(n, i):
+                    ge[i] -= 1
+            
+            for i in range(self.n):
+                if ge[i] == 0:
+                    fila.enqueue(i)
+                    ge[i] = -1
+    
+    def substitui(self):
+        vetor = []
+        for i in range(self.n):
+            vetor[i] = chr(self.n[i] + 97) # Troca os índices da tabela pelas letras dos vértices
+        return vetor
+            
 
 '''
 void ordenacaoTopologica( int vInicio ){
-int n, i, ge = new int [nroVertices];
-Fila f = new Fila();
-// Coloca em ge o grau de entrada |S(v)| para todo vértice do GDA.
-grauEntrada( ge ); // Exercício
-for (i=0; i<nroVertices; i++)
-if (ge[i] == 0){ f.enqueue(i);ge[i] = -1; }
-while (!f.qIsEsmpty()){
-n = f.dequeue();
-visitarNo( n );
-for(i=0; i<nroVertices;i++)
-if (nosAdjacentes(n, i) == 1) ge[i]--;
-for (i=0; i<nroVertices; i++)
-if (ge[i] == 0){ f.enqueue(i);ge[i] = -1; }
+    int n, i, ge = new int [nroVertices];
+    Fila f = new Fila();
+    // Coloca em ge o grau de entrada |S(v)| para todo vértice do GDA.
+    grauEntrada( ge ); // Exercício
+
+    for (i=0; i<nroVertices; i++)
+        if (ge[i] == 0){ f.enqueue(i);ge[i] = -1; }
+
+    while (!f.qIsEsmpty()){
+        n = f.dequeue();
+        visitarNo( n );
+        for(i=0; i<nroVertices;i++)
+            if (nosAdjacentes(n, i) == 1) ge[i]--;
+        for (i=0; i<nroVertices; i++)
+            if (ge[i] == 0){ f.enqueue(i);ge[i] = -1; }
 } } 
 '''
