@@ -8,13 +8,9 @@ from structure import Stack, Queue
 
 # Grafo como uma matriz de adjacência
 class Grafo:
-    TAM_MAX_DEFAULT = 100 # qtde de vértices máxima default
     # construtor da classe grafo
-    def __init__(self, n=TAM_MAX_DEFAULT):
-        self.n = n # número de vértices
-        self.m = 0 # número de arestas
-        # matriz de adjacência
-        self.adj = [[0 for i in range(n)] for j in range(n)]
+    def __init__(self, path= "./OrdenacaoTopologica/grafo_teste.txt"):
+        self.leGrafo(path)
 
 	# Insere uma aresta no Grafo tal que
 	# v é adjacente a w
@@ -103,10 +99,13 @@ class Grafo:
         return 1
     
     #Método para ler um grafo de um arquivo .txt Ex 6)
-    def leGrafo(self, path = "grafo.txt"):
+    def leGrafo(self, path):
         with open(path, 'r') as file:
             self.n = int(file.readline())
             self.m = int(file.readline())
+
+            # matriz de adjacência
+            self.adj = [[0 for i in range(self.n)] for j in range(self.n)]
             for _ in range(self.m):
                 string = file.readline()
                 i, j = int(string[0]), int(string[2])
@@ -200,30 +199,10 @@ class Grafo:
                 if ge[i] == 0:
                     fila.enqueue(i)
                     ge[i] = -1
+
+        return ordenacao
     
-    def substitui(self):
-        vetor = []
+    def substitui(self, vetor):
         for i in range(self.n):
-            vetor[i] = chr(self.n[i] + 97) # Troca os índices da tabela pelas letras dos vértices
+            vetor[i] = chr(vetor[i] + 97) # Troca os índices da tabela pelas letras dos vértices
         return vetor
-            
-
-'''
-void ordenacaoTopologica( int vInicio ){
-    int n, i, ge = new int [nroVertices];
-    Fila f = new Fila();
-    // Coloca em ge o grau de entrada |S(v)| para todo vértice do GDA.
-    grauEntrada( ge ); // Exercício
-
-    for (i=0; i<nroVertices; i++)
-        if (ge[i] == 0){ f.enqueue(i);ge[i] = -1; }
-
-    while (!f.qIsEsmpty()){
-        n = f.dequeue();
-        visitarNo( n );
-        for(i=0; i<nroVertices;i++)
-            if (nosAdjacentes(n, i) == 1) ge[i]--;
-        for (i=0; i<nroVertices; i++)
-            if (ge[i] == 0){ f.enqueue(i);ge[i] = -1; }
-} } 
-'''
