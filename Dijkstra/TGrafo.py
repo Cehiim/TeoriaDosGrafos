@@ -210,11 +210,10 @@ class Grafo:
         for i in range(self.n):
             vetor[i] = chr(vetor[i] + 97) # Troca os índices da tabela pelas letras dos vértices
         return vetor
-    
-    import sys
 
     def dijkstra(self, origem):
         # Inicializar distâncias com "infinito"
+        origem -= 1
         distancias = [sys.maxsize] * self.n
         distancias[origem] = 0  # A distância da origem para ela mesma é 0
 
@@ -240,5 +239,5 @@ class Grafo:
                     nova_distancia = distancias[u] + self.adj[u][v]
                     if nova_distancia < distancias[v]:
                         distancias[v] = nova_distancia
-
+                        
         return distancias
