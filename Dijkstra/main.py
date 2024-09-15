@@ -1,9 +1,9 @@
 from TGrafo import Grafo
 
 
-grafo = Grafo() #Obtém grafo do arquivo .txt
+grafo = Grafo()
 print(grafo.dijkstra(3))
 
 #Teste grafo da aula
-grafo = Grafo() #Obtém grafo do arquivo .txt
-print(grafo.dijkstra(3))
+grafo2 = Grafo("./Dijkstra/grafo_teste.txt") #Obtém grafo do arquivo .txt
+print(grafo2.dijkstra(1))

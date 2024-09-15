@@ -225,7 +225,7 @@ class Grafo:
         while len(visitados) < self.n:
             # Encontre o vértice com a menor distância que ainda não foi visitado
             min_distancia = sys.maxsize
-            u = -1
+            u = -1 # menor distância
             for i in range(self.n):
                 if i not in visitados and distancias[i] < min_distancia:
                     min_distancia = distancias[i]
