@@ -4,7 +4,7 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from structure import Stack, Queue
+from David.structure import Stack, Queue
 import sys
 
 CAMINHO = "./AtvidadeProjeto/grafo_meio_ambiente.txt"

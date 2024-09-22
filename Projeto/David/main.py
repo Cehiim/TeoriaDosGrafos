@@ -1,8 +1,7 @@
-from TGrafo import Grafo
+from David.TGrafo import Grafo
 import os, time
 
 grafo = Grafo() #Cria objeto grafo
-
 while(True):
     choice = int(input(
 '''
