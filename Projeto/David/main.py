@@ -1,4 +1,4 @@
-from David.TGrafo import Grafo
+from TGrafo import Grafo
 import os, time
 
 grafo = Grafo() #Cria objeto grafo
@@ -18,7 +18,7 @@ Menu:
     10) Encerrar a aplicação
 '''))
     if choice == 1: # Lê grafo
-        grafo.leGrafo()
+        grafo.leGrafo("palavras.txt")
         print("Grafo lido com sucesso!")
     
     elif choice == 2: # Grava dados no arquivo .txt
@@ -51,5 +51,5 @@ Menu:
     else:
         print("Escolha inválida!")
     
-    time.sleep(3) #Volta para o menu após 3 segundos
-    os.system('clear') #OBS: Trocar para 'cls' no Windows
+    time.sleep(4) # Volta para o menu após 4 segundos
+    os.system('clear') # Limpa o terminal

@@ -4,10 +4,10 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from David.structure import Stack, Queue
+from structure import Stack, Queue
 import sys
 
-CAMINHO = "./AtvidadeProjeto/grafo_meio_ambiente.txt"
+CAMINHO = "palavras.txt"
 
 # Grafo como uma matriz de adjacência
 class Grafo:
@@ -102,8 +102,9 @@ class Grafo:
         return 1
     
     #Método para ler um grafo de um arquivo .txt Ex 6)
+    '''
     def leGrafo(self, path= CAMINHO):
-        with open(path, 'r') as file:
+        with open(path, 'r', encoding='utf-8') as file:
             self.tipo = int(file.readline())
             self.n = int(file.readline())
 
@@ -119,6 +120,16 @@ class Grafo:
                 i, j, k = string.split(" ")
                 i, j, k = int(i), int(j), float(k)
                 self.adj[i][j] = k
+    '''
+    def leGrafo(self, path):
+        with open(path, 'r',encoding='utf-8') as arquivo:
+            n_palavras = int(arquivo.readline())
+
+            palavras = []
+            for i in range(n_palavras):
+                palavras.append(arquivo.readline().strip())
+        print(palavras)
+        print(n_palavras)
     
     #Método para remover um vértice de um grafo Ex 9)
     def removeV(self, v):
