@@ -63,7 +63,7 @@ def comparaGrafos(matriz, lista): # Ex 17
                 if(not j in lista.listaAdj[i]):
                     return "Os grafos são diferentes"
     return "Os grafos são iguais"
-
+'''
 print("Grafo original")
 g = GrafoND(6)
 g.insereA(0, 1)
@@ -81,7 +81,7 @@ print(g.ehCompleto())
 #removeVertice(g,4)
 g.removeV(4)
 g.showMin()
-'''
+
 print("Grafo complementar")
 gc = grafoComplementar(g)
 gc.showMin()
@@ -102,7 +102,7 @@ gnd.insereA(3, 3)
 #gnd.show()
 gnd.showMin()
 print(g.ehCompleto())
-
+'''
 gr = GrafoNDR(4)
 gr.insereA(0, 1, 1.5)
 gr.insereA(0, 2, 3)
@@ -113,4 +113,3 @@ gr.insereA(2, 3, 2)
 gr.insereA(3, 3, 5)
 #gr.show()
 gr.showMin()
-'''
