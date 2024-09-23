@@ -1,4 +1,4 @@
-16
+8
 Ecossistema
 Sustentabilidade
 Biodiversidade
@@ -7,11 +7,3 @@ Conservação
 Poluição
 Desmatamento
 Reflorestamento
-Erosão
-Compostagem
-Biodegradável
-Emissões
-Pegada
-Recursos
-Preservação
-Ecologia
