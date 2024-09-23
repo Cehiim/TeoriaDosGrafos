@@ -1,51 +1,51 @@
 50
-0 Ecossistema
-1 Sustentabilidade
-2 Biodiversidade
-3 Reciclagem
-4 Conservação
-5 Poluição
-6 Desmatamento
-7 Reflorestamento
-8 Erosão
-9 Compostagem
-10 Biodegradável
-11 Emissões
-12 Pegada
-13 Recursos
-14 Preservação
-15 Ecologia
-16 Habitat
-17 Fauna
-18 Flora
-19 Agroecologia
-20 Bioma
-21 Ciclo
-22 Desenvolvimento
-23 Economia
-24 Efluentes
-25 Gestão
-26 Impacto
-27 Mata
-28 Amazônia
-29 Cerrado
-30 Pantanal
-31 Biotecnologia
-32 Agrofloresta
-33 Agricultura
-34 Aquicultura
-35 Biocombustível
-36 Solar
-37 Eólica
-38 Hidrelétrica
-39 Resíduos
-40 Saneamento
-41 Tratamento
-42 Uso
-43 Zona
-44 Proteção
-45 Ambiental
-46 Clima
-47 Solo
-48 Água
-49 Floresta
+Ecossistema
+Sustentabilidade
+Biodiversidade
+Reciclagem
+Conservação
+Poluição
+Desmatamento
+Reflorestamento
+Erosão
+Compostagem
+Biodegradável
+Emissões
+Pegada
+Recursos
+Preservação
+Ecologia
+Habitat
+Fauna
+Flora
+Agroecologia
+Bioma
+Ciclo
+Desenvolvimento
+Economia
+Efluentes
+Gestão
+Impacto
+Mata
+Amazônia
+Cerrado
+Pantanal
+Biotecnologia
+Agrofloresta
+Agricultura
+Aquicultura
+Biocombustível
+Solar
+Eólica
+Hidrelétrica
+Resíduos
+Saneamento
+Tratamento
+Uso
+Zona
+Proteção
+Ambiental
+Clima
+Solo
+Água
+Floresta
