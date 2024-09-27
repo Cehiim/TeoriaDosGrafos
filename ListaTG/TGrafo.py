@@ -131,13 +131,79 @@ class Grafo:
         if((self.n ** 2) - self.n == self.m):
             return "O grafo é completo"
         return "O grafo não é completo"
-'''
-    def buscaCaminho(self, v1, v2): # Ex 14
-        if(self.adj[v1][v2] != 0):
+
+    def dfs(self, visitados, vertice): # Depth First Search
+        visitados[vertice] = True
+        for i in range(self.n):
+            if(self.adj[vertice][i] != 0 and visitados[i] == False): # Caso haja acesso para um próximo vértice que não foi visitado
+                self.dfs(visitados, i)
+
+    def ehForte(self):
+        count = 0
+        for i in range(self.n):
+            visitados = [False] * self.n
+            self.dfs(visitados, i)
+            if(all(visitados)): # Caso todos tenham sido visitados
+                count += 1
+        if(count == self.n):
             return True
-        passou = [v1]
-        i = 0
-        atual = v1
-        while(i < self.n):
-            if()
-'''
+        else:
+            return False
+
+    def ehSemiForte(self):
+        for i in range(self.n):
+            for j in range(self.n):
+                visitados = [False] * self.n
+                self.dfs(visitados, j)
+                if(visitados[i] == False): # Verifica se o vértice 'j' tem acesso para o vértice 'i'
+                    visitados = [False] * self.n
+                    self.dfs(visitados, i)
+                    if(visitados[j] == False): # Verifica se o vértice 'i' tem acesso para o vértice 'j'
+                        return False
+        return True
+
+    def removeDirecao(self):
+        grafo_nd = Grafo(self.n)
+        for i in range(self.n):
+            for j in range(self.n):
+                if(self.adj[i][j] != 0):
+                    grafo_nd.insereA(i,j)
+                    grafo_nd.insereA(j,i)
+        return grafo_nd
+
+    def ehSimples(self):
+        grafo_nd = self.removeDirecao() # Versão não-direcionada do grafo original
+        for i in range(self.n):
+            visitados = [False] * self.n
+            grafo_nd.dfs(visitados, i)
+            if(all(visitados)): # Caso todos tenham sido visitados
+                return True
+        return False
+
+    def conexidade(self):
+        if(self.ehForte()):
+            print("O grafo é fortemente conexo (C3)")
+        else:
+            if(self.ehSemiForte()):
+                print("O grafo é semi-fortemente conexo (C2)")
+            else:
+                if(self.ehSimples()):
+                    print("O grafo é simplesmente conexo (C1)")
+                else:
+                    print("O grafo é desconexo (C0)")
+
+    def fechoDireto(self, visitados):
+        fecho_direto = []
+        for i in range(self.n):
+            if(visitados[i]):
+                fecho_direto.append(i) # Adiciona os vértices acessíveis
+        return fecho_direto
+
+    def fechoInverso(self, vertice):
+        visitados = [False] * self.n
+        fecho_inverso = []
+        for i in range(self.n):
+            self.dfs(visitados, vertice)
+            if(visitados[vertice]):
+                fecho_inverso.append(i) # Adiciona os vértices que acessam
+        return fecho_inverso
