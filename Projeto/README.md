@@ -8,4 +8,4 @@
 * O código é dividido em três seções principais - Setup, Testes e Aplicação.
   * Em Setup há pacotes e funções essenciais para o funcionamento das outras duas seções (necessário executar).
   * Em Testes apresenta execuções testes separadas de cada opção do Menu (opcional executar).
-  * Em Aplicação há a seção com o código e outra seção com o Menu interativo.
+  * Em Aplicação há a seção com o Código e outra seção com o Menu interativo.
