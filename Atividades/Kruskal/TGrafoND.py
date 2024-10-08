@@ -8,7 +8,7 @@ from structure import Stack, Queue
 import sys
 
 # Grafo como uma matriz de adjacência
-class Grafo:
+class GrafoND:
     # construtor da classe grafo
     def __init__(self, path):
         self.leGrafo(path)
@@ -114,6 +114,7 @@ class Grafo:
                 i -= 1
                 j -= 1
                 self.adj[i][j] = k
+                self.adj[k][i] = k
     
     #Método para remover um vértice de um grafo Ex 9)
     def removeV(self, v):
