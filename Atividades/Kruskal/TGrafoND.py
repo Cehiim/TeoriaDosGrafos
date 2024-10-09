@@ -243,50 +243,69 @@ class GrafoND:
                         
         return distancias
     
-    def _atinge(self, conta_vertice, arvore_parcial, arestas, origem):
-        if origem in conta_vertice:
-            return True
-        
-        conta_vertice.append(origem)
-        proximas_arestas = [aresta for aresta in arestas if origem in (aresta[0], aresta[1])]
-        if len(proximas_arestas) == 0:
-            return False
-        
-        for aresta in proximas_arestas:
-            if aresta[0] == origem:
-                prox = aresta[1]
-            else:
-                prox = aresta[0]
-            result = self._atinge(conta_vertice, arvore_parcial, arestas, prox)
-            if result == True:
-                return True
-    
-        return False
-        
+    def _find(self, parent, i):
+        if parent[i] == i:
+            return i
+        return self._find(parent, parent[i])
+
+    # Função para unir dois subconjuntos no Union-Find
+    def _union(self, parent, rank, x, y):
+        root_x = self._find(parent, x)
+        root_y = self._find(parent, y)
+
+        # Anexar a árvore de menor rank sob a árvore de maior rank
+        if rank[root_x] < rank[root_y]:
+            parent[root_x] = root_y
+        elif rank[root_x] > rank[root_y]:
+            parent[root_y] = root_x
+        else:
+            parent[root_y] = root_x
+            rank[root_x] += 1
+
+    # Implementação do Algoritmo de Kruskal
     def kruskal(self):
-        arestas = []
+        arestas = [] #Obtém as arestas do grafo
         for i in range(self.n):
             for j in range(i, self.n):
                 if self.adj[i][j] > 0:
                     aresta = (i, j, self.adj[i][j])
                     arestas.append(aresta)
-        arestas.sort(key=lambda x: x[-1])
-        
-        arvore_parcial = []
-        for i in range(self.n):
-            vertice1 = arestas[i][0]
-            vertice2 = arestas[i][1]
-            print(arvore_parcial)
-            result1 = self._atinge([vertice2], arvore_parcial, arestas, vertice1)
-            result2 = self._atinge([vertice1], arvore_parcial, arestas, vertice2)
 
-            if not(result1 or result2):
-                arvore_parcial.append(aresta[i])
-                
-        
-        for i in range(len(arvore_parcial)):
-            arvore_parcial[i][0] += 1 #Corrige número dos vértices para exibição
-            arvore_parcial[i][1] += 1
-            
+        # Ordenar as arestas por peso
+        arestas.sort(key=lambda x: x[2])
+
+        # Inicializar a estrutura Union-Find
+        parent = []
+        rank = []
+
+        for node in range(self.n):
+            parent.append(node)
+            rank.append(0)
+
+        # Lista para armazenar a árvore geradora mínima (MST)
+        arvore_parcial = []
+
+        # Número de arestas na MST
+        e = 0
+        i = 0
+
+        # Iterar pelas arestas em ordem de peso
+        while e < self.n - 1 and i < len(arestas):
+            # Escolher a menor aresta
+            u, v, peso = arestas[i]
+            i += 1
+
+            # Encontrar os representantes (subconjuntos) dos vértices u e v
+            x = self._find(parent, u)
+            y = self._find(parent, v)
+
+            # Se u e v não pertencem ao mesmo subconjunto, adicionar a aresta à MST
+            if x != y:
+                e += 1
+                arvore_parcial.append((u, v, peso))
+                self._union(parent, rank, x, y)
+
+        # Retornar a árvore geradora mínima
         return arvore_parcial
+
 
