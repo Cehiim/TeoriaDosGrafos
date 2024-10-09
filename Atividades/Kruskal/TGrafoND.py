@@ -302,10 +302,20 @@ class GrafoND:
             # Se u e v não pertencem ao mesmo subconjunto, adicionar a aresta à MST
             if x != y:
                 e += 1
-                arvore_parcial.append((u, v, peso))
+                arvore_parcial.append([u, v, peso])
                 self._union(parent, rank, x, y)
+        
+        for i in range(len(arvore_parcial)): #Ajusta índice dos vértices
+            arvore_parcial[i][0] += 1
+            arvore_parcial[i][1] += 1
 
-        # Retornar a árvore geradora mínima
-        return arvore_parcial
+        # Exibe a árvore geradora mínima
+        self._show_kruskal(arvore_parcial)
+
+    def _show_kruskal(self, arvore_parcial):
+        print("Arestas da árvore Parcial de Custo mínimo:")
+        print("Vertice1 --- Vertice2 --- Peso")
+        for i in range(len(arvore_parcial)):
+            print(f"{arvore_parcial[i][0]} --- {arvore_parcial[i][1]} --- {arvore_parcial[i][2]}")
 
 
