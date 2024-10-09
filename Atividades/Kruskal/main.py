@@ -1,7 +1,7 @@
-from Atividades.Kruskal.TGrafoND import Grafo
+from TGrafoND import GrafoND
 
-grafo = Grafo("grafo_anterior.txt") # Grafo da atividade anterior
-print("Caminhos mínimos do grafo da atividade anterior:", grafo.dijkstra(3))
+#grafo = GrafoND("grafo_anterior.txt") # Grafo da atividade anterior
+#print("Aplicando o algoritmo de Kruskal no grafo da atividade anterior:", grafo.kruskal())
 
-grafo2 = Grafo("grafo_aula.txt") # Grafo de exemplo utilizado nas aulas
-print("Caminhos mínimos do grafo utilizado como exemplo na aula:", grafo2.dijkstra(1))
+grafo2 = GrafoND("grafo_aula.txt") # Grafo de exemplo utilizado nas aulas
+print("Aplicando o algoritmo de Kruskal no grafo utilizado como exemplo na aula:", grafo2.kruskal())

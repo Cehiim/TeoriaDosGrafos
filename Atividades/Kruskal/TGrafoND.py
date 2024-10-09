@@ -4,7 +4,7 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from structure import Stack, Queue
+from structure import *
 import sys
 
 # Grafo como uma matriz de adjacência
@@ -114,7 +114,7 @@ class GrafoND:
                 i -= 1
                 j -= 1
                 self.adj[i][j] = k
-                self.adj[k][i] = k
+                self.adj[j][i] = k
     
     #Método para remover um vértice de um grafo Ex 9)
     def removeV(self, v):
@@ -242,3 +242,51 @@ class GrafoND:
                         distancias[v] = nova_distancia
                         
         return distancias
+    
+    def _atinge(self, conta_vertice, arvore_parcial, arestas, origem):
+        if origem in conta_vertice:
+            return True
+        
+        conta_vertice.append(origem)
+        proximas_arestas = [aresta for aresta in arestas if origem in (aresta[0], aresta[1])]
+        if len(proximas_arestas) == 0:
+            return False
+        
+        for aresta in proximas_arestas:
+            if aresta[0] == origem:
+                prox = aresta[1]
+            else:
+                prox = aresta[0]
+            result = self._atinge(conta_vertice, arvore_parcial, arestas, prox)
+            if result == True:
+                return True
+    
+        return False
+        
+    def kruskal(self):
+        arestas = []
+        for i in range(self.n):
+            for j in range(i, self.n):
+                if self.adj[i][j] > 0:
+                    aresta = (i, j, self.adj[i][j])
+                    arestas.append(aresta)
+        arestas.sort(key=lambda x: x[-1])
+        
+        arvore_parcial = []
+        for i in range(self.n):
+            vertice1 = arestas[i][0]
+            vertice2 = arestas[i][1]
+            print(arvore_parcial)
+            result1 = self._atinge([vertice2], arvore_parcial, arestas, vertice1)
+            result2 = self._atinge([vertice1], arvore_parcial, arestas, vertice2)
+
+            if not(result1 or result2):
+                arvore_parcial.append(aresta[i])
+                
+        
+        for i in range(len(arvore_parcial)):
+            arvore_parcial[i][0] += 1 #Corrige número dos vértices para exibição
+            arvore_parcial[i][1] += 1
+            
+        return arvore_parcial
+
