@@ -32,9 +32,3 @@ class Queue:
 
     def size(self):
         return len(self.items)
-
-class Aresta:
-    def __init__(self, origem, destino, peso):
-        self.origem = origem
-        self.destino = destino
-        self.peso = peso
