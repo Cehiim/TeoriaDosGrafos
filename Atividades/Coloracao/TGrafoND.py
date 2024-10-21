@@ -4,7 +4,7 @@ Created on Mon Feb 13 13:59:10 2023
 
 @author: icalc
 """
-from structure import *
+
 import sys
 
 # Grafo como uma matriz de adjacência
@@ -143,74 +143,12 @@ class GrafoND:
             return True
         else:
             return False
-
-    def percursoProfindidade(self, vInicio):
-        percurso = [vInicio]
-        nosMarcados = []
-        pilha = Stack()
-        
-        nosMarcados.append(vInicio)
-        pilha.push(vInicio)
-        while(not pilha.isEmpty()):
-            
-            n = pilha.pop()
-            while (self.noAdjacente(n, nosMarcados)) != -1: 
-                m = self.noAdjacente(n, nosMarcados)
-                percurso.append(m)
-                pilha.push(n)
-                nosMarcados.append(m)
-                n = m
-
-        return percurso
-
-    def percursoLargura(self, vInicio):
-        percurso = [vInicio]
-        nosMarcados = []
-        fila = Queue()
-
-        nosMarcados.append(vInicio)
-        fila.enqueue(vInicio)
-        while(not fila.isEmpty()):
-
-            n = fila.dequeue()
-            while(self.noAdjacente(n, nosMarcados) != -1):
-                m = self.noAdjacente(n, nosMarcados)
-                percurso.append(m)
-                fila.enqueue(m)
-                nosMarcados.append(m)
-
-        return percurso
-    
-    def ordenacaotopologica(self):
-        ge = [0] * self.n
-        fila = Queue()
-        ordenacao = []
-        for i in range(self.n):
-            ge[i] = self.inDegree(i)
-        
-        for i in range(self.n):
-            if ge[i] == 0:
-                fila.enqueue(i)
-                ge[i] = -1
-        
-        while not fila.isEmpty():
-            n = fila.dequeue()
-            ordenacao.append(n) #visita nó
-            for i in range(self.n):
-                if self.EhAdjacente(n, i):
-                    ge[i] -= 1
-            
-            for i in range(self.n):
-                if ge[i] == 0:
-                    fila.enqueue(i)
-                    ge[i] = -1
-
-        return ordenacao
     
     def substitui(self, vetor):
+        vetor_copia = vetor.copy()
         for i in range(self.n):
-            vetor[i] = chr(vetor[i] + 97) # Troca os índices da tabela pelas letras dos vértices
-        return vetor
+            vetor_copia[i] = chr(vetor_copia[i] + 97) # Troca os índices da tabela pelas letras dos vértices
+        return vetor_copia
 
     def dijkstra(self, origem):
         # Inicializar distâncias com "infinito"
@@ -318,6 +256,21 @@ class GrafoND:
         for i in range(len(arvore_parcial)):
             print(f"{arvore_parcial[i][0]} --- {arvore_parcial[i][1]} --- {arvore_parcial[i][2]}")
 
-    def colore(self):
-        pass
+    def colore_sequencial(self):
+        lista_colorida = self.n * [0]
+        for i in range(self.n):
+            other_colors = []
+            for j in range(self.n):
+                if self.EhAdjacente(i, j) and lista_colorida[j] != 0:
+                    other_colors.append(lista_colorida[j])
+            
+            if other_colors == []:
+                lista_colorida[i] = 1
 
+            elif other_colors != []:
+                for k in range(1, self.n):
+                    if k not in other_colors:
+                        lista_colorida[i] = k
+                        break
+                    
+        return lista_colorida
