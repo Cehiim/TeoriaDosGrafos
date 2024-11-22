@@ -1,0 +1,357 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1200px;
+                 background-color: black;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "yellow", "font": {"color": "white"}, "id": 0, "label": "Casa", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 1, "label": "Carro", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 2, "label": "Escola", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 3, "label": "Cidade", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 4, "label": "Livro", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 5, "label": "Computador", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 6, "label": "Telefone", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 7, "label": "M\u00fasica", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 8, "label": "Amigo", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 9, "label": "Trabalho", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 10, "label": "Amor", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 11, "label": "Rua", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 12, "label": "Parque", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 13, "label": "Restaurante", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 14, "label": "Viagem", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 15, "label": "Fam\u00edlia", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 16, "label": "M\u00e9dico", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 17, "label": "Estudante", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 18, "label": "Professor", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 19, "label": "Exame", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 20, "label": "Jogo", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 21, "label": "Tecnologia", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 22, "label": "Internet", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 23, "label": "Biblioteca", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 24, "label": "Montanha", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 25, "label": "Praia", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 26, "label": "Festa", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 27, "label": "Cinema", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 28, "label": "Hist\u00f3ria", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 29, "label": "Poesia", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 30, "label": "Desenho", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 31, "label": "Crian\u00e7a", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 32, "label": "Adulto", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 33, "label": "Animal", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 34, "label": "H\u00e1bito", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 35, "label": "Roupas", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 36, "label": "\u00c1gua", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 37, "label": "Sol", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 38, "label": "Lua", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 39, "label": "Estrela", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 40, "label": "Jardim", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 41, "label": "Mercadoria", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 42, "label": "Receita", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 43, "label": "M\u00fasica", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 44, "label": "Confer\u00eancia", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 45, "label": "Governo", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 46, "label": "Pol\u00edtica", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 47, "label": "Trabalho", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 48, "label": "Projeto", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 49, "label": "Alegria", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 50, "label": "Tristeza", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 51, "label": "Esperan\u00e7a", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 52, "label": "Sonho", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 53, "label": "Realidade", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 54, "label": "Sa\u00fade", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 55, "label": "Doen\u00e7a", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 56, "label": "Descoberta", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 57, "label": "Inven\u00e7\u00e3o", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 58, "label": "Liberdade", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": 59, "label": "Cultura", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"color": "gray", "from": 1, "title": "\n            Carro\n            Telefone\n            Peso: 0.64\n                          ", "to": 6, "value": 0.644741415977478}, {"color": "gray", "from": 6, "title": "\n            Telefone\n            Restaurante\n            Peso: 0.65\n                          ", "to": 13, "value": 0.6507570743560791}, {"color": "gray", "from": 19, "title": "\n            Exame\n            Receita\n            Peso: 0.65\n                          ", "to": 42, "value": 0.6513062715530396}, {"color": "gray", "from": 19, "title": "\n            Exame\n            Tecnologia\n            Peso: 0.65\n                          ", "to": 21, "value": 0.6532144546508789}, {"color": "gray", "from": 2, "title": "\n            Escola\n            Exame\n            Peso: 0.65\n                          ", "to": 19, "value": 0.6547443270683289}, {"color": "gray", "from": 0, "title": "\n            Casa\n            Jogo\n            Peso: 0.66\n                          ", "to": 20, "value": 0.6551040410995483}, {"color": "gray", "from": 20, "title": "\n            Jogo\n            Festa\n            Peso: 0.66\n                          ", "to": 26, "value": 0.65541011095047}, {"color": "gray", "from": 6, "title": "\n            Telefone\n            Rua\n            Peso: 0.67\n                          ", "to": 11, "value": 0.6722205281257629}, {"color": "gray", "from": 20, "title": "\n            Jogo\n            Crian\u00e7a\n            Peso: 0.68\n                          ", "to": 31, "value": 0.6783264875411987}, {"color": "gray", "from": 38, "title": "\n            Lua\n            Jardim\n            Peso: 0.69\n                          ", "to": 40, "value": 0.6855461001396179}, {"color": "gray", "from": 14, "title": "\n            Viagem\n            Roupas\n            Peso: 0.69\n                          ", "to": 35, "value": 0.6895495653152466}, {"color": "gray", "from": 15, "title": "\n            Fam\u00edlia\n            Receita\n            Peso: 0.70\n                          ", "to": 42, "value": 0.6987463235855103}, {"color": "gray", "from": 13, "title": "\n            Restaurante\n            Roupas\n            Peso: 0.70\n                          ", "to": 35, "value": 0.7023308873176575}, {"color": "gray", "from": 42, "title": "\n            Receita\n            Inven\u00e7\u00e3o\n            Peso: 0.70\n                          ", "to": 57, "value": 0.7026498913764954}, {"color": "gray", "from": 53, "title": "\n            Realidade\n            Descoberta\n            Peso: 0.71\n                          ", "to": 56, "value": 0.7072262763977051}, {"color": "gray", "from": 11, "title": "\n            Rua\n            Mercadoria\n            Peso: 0.71\n                          ", "to": 41, "value": 0.7077512145042419}, {"color": "gray", "from": 13, "title": "\n            Restaurante\n            Praia\n            Peso: 0.71\n                          ", "to": 25, "value": 0.7090750932693481}, {"color": "gray", "from": 25, "title": "\n            Praia\n            Crian\u00e7a\n            Peso: 0.71\n                          ", "to": 31, "value": 0.713455319404602}, {"color": "gray", "from": 29, "title": "\n            Poesia\n            Cultura\n            Peso: 0.71\n                          ", "to": 59, "value": 0.7146090269088745}, {"color": "gray", "from": 2, "title": "\n            Escola\n            Mercadoria\n            Peso: 0.72\n                          ", "to": 41, "value": 0.7157719135284424}, {"color": "gray", "from": 1, "title": "\n            Carro\n            Computador\n            Peso: 0.72\n                          ", "to": 5, "value": 0.7178723216056824}, {"color": "gray", "from": 1, "title": "\n            Carro\n            H\u00e1bito\n            Peso: 0.72\n                          ", "to": 34, "value": 0.7223055362701416}, {"color": "gray", "from": 7, "title": "\n            M\u00fasica\n            Amor\n            Peso: 0.72\n                          ", "to": 10, "value": 0.7232847213745117}, {"color": "gray", "from": 18, "title": "\n            Professor\n            \u00c1gua\n            Peso: 0.72\n                          ", "to": 36, "value": 0.7240248918533325}, {"color": "gray", "from": 42, "title": "\n            Receita\n            Governo\n            Peso: 0.72\n                          ", "to": 45, "value": 0.724048912525177}, {"color": "gray", "from": 21, "title": "\n            Tecnologia\n            Pol\u00edtica\n            Peso: 0.72\n                          ", "to": 46, "value": 0.7242502570152283}, {"color": "gray", "from": 3, "title": "\n            Cidade\n            Jardim\n            Peso: 0.72\n                          ", "to": 40, "value": 0.724632978439331}, {"color": "gray", "from": 36, "title": "\n            \u00c1gua\n            Jardim\n            Peso: 0.72\n                          ", "to": 40, "value": 0.7248993515968323}, {"color": "gray", "from": 31, "title": "\n            Crian\u00e7a\n            \u00c1gua\n            Peso: 0.73\n                          ", "to": 36, "value": 0.7261828184127808}, {"color": "gray", "from": 44, "title": "\n            Confer\u00eancia\n            Liberdade\n            Peso: 0.73\n                          ", "to": 58, "value": 0.727101743221283}, {"color": "gray", "from": 37, "title": "\n            Sol\n            Jardim\n            Peso: 0.73\n                          ", "to": 40, "value": 0.7286643385887146}, {"color": "gray", "from": 7, "title": "\n            M\u00fasica\n            Cinema\n            Peso: 0.73\n                          ", "to": 27, "value": 0.7302529811859131}, {"color": "gray", "from": 27, "title": "\n            Cinema\n            M\u00fasica\n            Peso: 0.73\n                          ", "to": 43, "value": 0.7302529811859131}, {"color": "gray", "from": 32, "title": "\n            Adulto\n            Doen\u00e7a\n            Peso: 0.73\n                          ", "to": 55, "value": 0.7307983636856079}, {"color": "gray", "from": 41, "title": "\n            Mercadoria\n            Realidade\n            Peso: 0.73\n                          ", "to": 53, "value": 0.7308260798454285}, {"color": "gray", "from": 5, "title": "\n            Computador\n            Animal\n            Peso: 0.73\n                          ", "to": 33, "value": 0.7318270206451416}, {"color": "gray", "from": 34, "title": "\n            H\u00e1bito\n            Doen\u00e7a\n            Peso: 0.73\n                          ", "to": 55, "value": 0.7323376536369324}, {"color": "gray", "from": 14, "title": "\n            Viagem\n            Sonho\n            Peso: 0.73\n                          ", "to": 52, "value": 0.7335765361785889}, {"color": "gray", "from": 8, "title": "\n            Amigo\n            Viagem\n            Peso: 0.73\n                          ", "to": 14, "value": 0.733586847782135}, {"color": "gray", "from": 28, "title": "\n            Hist\u00f3ria\n            Cultura\n            Peso: 0.73\n                          ", "to": 59, "value": 0.733816385269165}, {"color": "gray", "from": 17, "title": "\n            Estudante\n            Crian\u00e7a\n            Peso: 0.73\n                          ", "to": 31, "value": 0.7344340682029724}, {"color": "gray", "from": 29, "title": "\n            Poesia\n            Tristeza\n            Peso: 0.74\n                          ", "to": 50, "value": 0.736531138420105}, {"color": "gray", "from": 5, "title": "\n            Computador\n            Internet\n            Peso: 0.74\n                          ", "to": 22, "value": 0.737072765827179}, {"color": "gray", "from": 7, "title": "\n            M\u00fasica\n            Alegria\n            Peso: 0.74\n                          ", "to": 49, "value": 0.7372080683708191}, {"color": "gray", "from": 24, "title": "\n            Montanha\n            Desenho\n            Peso: 0.74\n                          ", "to": 30, "value": 0.7399912476539612}, {"color": "gray", "from": 24, "title": "\n            Montanha\n            Adulto\n            Peso: 0.74\n                          ", "to": 32, "value": 0.7427956461906433}, {"color": "gray", "from": 8, "title": "\n            Amigo\n            Alegria\n            Peso: 0.74\n                          ", "to": 49, "value": 0.743396520614624}, {"color": "gray", "from": 29, "title": "\n            Poesia\n            Alegria\n            Peso: 0.74\n                          ", "to": 49, "value": 0.7436360120773315}, {"color": "gray", "from": 51, "title": "\n            Esperan\u00e7a\n            Liberdade\n            Peso: 0.74\n                          ", "to": 58, "value": 0.7437746524810791}, {"color": "gray", "from": 2, "title": "\n            Escola\n            Trabalho\n            Peso: 0.75\n                          ", "to": 9, "value": 0.7467523813247681}, {"color": "gray", "from": 2, "title": "\n            Escola\n            Trabalho\n            Peso: 0.75\n                          ", "to": 47, "value": 0.7467523813247681}, {"color": "gray", "from": 2, "title": "\n            Escola\n            Liberdade\n            Peso: 0.75\n                          ", "to": 58, "value": 0.7493751645088196}, {"color": "gray", "from": 12, "title": "\n            Parque\n            Restaurante\n            Peso: 0.75\n                          ", "to": 13, "value": 0.7498370409011841}, {"color": "gray", "from": 24, "title": "\n            Montanha\n            Estrela\n            Peso: 0.75\n                          ", "to": 39, "value": 0.7508024573326111}, {"color": "gray", "from": 16, "title": "\n            M\u00e9dico\n            Professor\n            Peso: 0.75\n                          ", "to": 18, "value": 0.7523395419120789}, {"color": "gray", "from": 2, "title": "\n            Escola\n            Livro\n            Peso: 0.75\n                          ", "to": 4, "value": 0.7532487511634827}, {"color": "gray", "from": 22, "title": "\n            Internet\n            Biblioteca\n            Peso: 0.77\n                          ", "to": 23, "value": 0.7679192423820496}, {"color": "gray", "from": 18, "title": "\n            Professor\n            Projeto\n            Peso: 0.77\n                          ", "to": 48, "value": 0.768068790435791}, {"color": "gray", "from": 54, "title": "\n            Sa\u00fade\n            Cultura\n            Peso: 0.78\n                          ", "to": 59, "value": 0.776255190372467}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
